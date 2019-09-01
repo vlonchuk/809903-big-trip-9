@@ -1,6 +1,5 @@
-export const generateMenu = () => `
+export const generateMenu = (data) => `
 <nav class="trip-controls__trip-tabs  trip-tabs">
-<a class="trip-tabs__btn" href="#">Table</a>
-<a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Stats</a>
+${data.map((m) => `<a class="trip-tabs__btn ${m.active ? ` trip-tabs__btn--active` : ``}" href="#">${m.caption}</a>`).join(``)}
 </nav>
 `;
