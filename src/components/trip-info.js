@@ -3,7 +3,9 @@ import * as utils from './../utils';
 export default class TripInfo {
   constructor(route) {
     this._route = route;
-    this.calc();
+    if (this._route.length > 0) {
+      this.calc();
+    }
   }
 
   calc() {
@@ -37,8 +39,8 @@ export default class TripInfo {
 
   getTemplate() {
     return `<div><div class="trip-info__main">
-      <h1 class="trip-info__title">${this._title}</h1>
-      <p class="trip-info__dates">${this._dates}</p>
+      <h1 class="trip-info__title">${this._title ? this._title : ``}</h1>
+      <p class="trip-info__dates">${this._dates ? this._dates : ``}</p>
     </div>`;
   }
 }
