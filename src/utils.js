@@ -9,6 +9,10 @@ const Position = {
   BEFOREEND: `beforeend`
 };
 
+const Keys = {
+  ESCAPE: 27
+};
+
 // Рендер и анрендер для компонент
 const render = (container, element, place) => {
   switch (place) {
@@ -27,4 +31,4 @@ const unrender = (element) => {
   }
 };
 
-export {createElement, Position, render, unrender};
+export {createElement, Position, render, unrender, Keys};
