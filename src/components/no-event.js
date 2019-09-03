@@ -1,18 +1,6 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 
-export default class NoEvent {
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
+export default class NoEvent extends AbstractComponent {
   getTemplate() {
     return `<p class="trip-events__msg">Click New Event to create your first point</p>`;
   }

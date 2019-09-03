@@ -1,4 +1,4 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 
 const SVG = `
 <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">
@@ -6,21 +6,10 @@ const SVG = `
 </svg>
 `;
 
-export default class Sort {
+export default class Sort extends AbstractComponent {
   constructor(columns) {
+    super();
     this._columns = columns;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {

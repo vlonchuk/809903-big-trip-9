@@ -1,7 +1,8 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 
-export default class TripCost {
+export default class TripCost extends AbstractComponent {
   constructor(route) {
+    super();
     this._route = route;
     this.calc();
   }
@@ -14,19 +15,6 @@ export default class TripCost {
         this._total += o.price;
       });
     });
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    utils.unrender(this._element);
-    this._element = null;
   }
 
   getTemplate() {
