@@ -7,19 +7,29 @@ const SVG = `
 `;
 
 export default class Sort extends AbstractComponent {
-  constructor(columns) {
+  constructor(columns, activeCol) {
     super();
     this._columns = columns;
+    this._activeCol = activeCol;
+  }
+
+  get activeCol() {
+    return this._activeCol;
+  }
+
+  set activeCol(value) {
+    this._activeCol = value;
   }
 
   getTemplate() {
     return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
       ${this._columns.map((c) => {
     return !c.sortable ?
-      `<span class="trip-sort__item  trip-sort__item--${c.name}">${c.name}</span>` :
+      `<span class="trip-sort__item trip-sort__item--${c.name}">${c.name}</span>` :
       `<div class="trip-sort__item  trip-sort__item--${c.name}">
-             <input id="sort-${c.name}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${c.name}"
-               ${c.active ? `checked` : ``}>
+             <input id="sort-${c.name}" class="trip-sort__input  visually-hidden" type="radio" 
+                name="trip-sort" data-sort-type="${c.name}" value="sort-${c.name}"
+               ${c.name === this._activeCol ? `checked` : ``}>
              <label class="trip-sort__btn" for="sort-${c.name}">
              ${c.name}
              ${c.active ? SVG : ``}

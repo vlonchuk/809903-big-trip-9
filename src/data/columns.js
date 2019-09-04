@@ -1,3 +1,9 @@
+const COLUMN_SORT_TYPE = {
+  EVENT: `event`,
+  TIME: `time`,
+  PRICE: `price`
+};
+
 const columns = [
   {
     name: `day`,
@@ -22,4 +28,5 @@ const columns = [
   }
 ];
 
+export {COLUMN_SORT_TYPE};
 export default columns;
