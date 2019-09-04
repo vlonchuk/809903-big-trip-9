@@ -1,7 +1,8 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 
-export default class Event {
+export default class Event extends AbstractComponent {
   constructor({type, title, startTime, endTime, duration, price, options}) {
+    super();
     this._type = type;
     this._title = title;
     this._startTime = startTime;
@@ -9,18 +10,6 @@ export default class Event {
     this._duration = duration;
     this._price = price;
     this._options = options;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {

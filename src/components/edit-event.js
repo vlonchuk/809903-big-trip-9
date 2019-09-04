@@ -1,4 +1,4 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 import EVENT_TYPE from './../data/event-type';
 import CITY_NAME from './../data/city-name';
 import {availableOptions} from './../data/option';
@@ -10,21 +10,10 @@ const generateEventTypeChoice = (t) => `
 </div>          
 `;
 
-export default class EditEvent {
+export default class EditEvent extends AbstractComponent {
   constructor(event) {
+    super();
     this._event = event;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {

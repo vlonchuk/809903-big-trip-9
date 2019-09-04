@@ -1,7 +1,8 @@
-import * as utils from './../utils';
+import AbstractComponent from './../components/abstract-component';
 
-export default class TripInfo {
+export default class TripInfo extends AbstractComponent {
   constructor(route) {
+    super();
     this._route = route;
     if (this._route.length > 0) {
       this.calc();
@@ -23,18 +24,6 @@ export default class TripInfo {
     } else {
       this._dates = `${start.startDay} ${start.startMonth} - ${end.endDay} ${end.endMonth}`;
     }
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = utils.createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {
