@@ -3,17 +3,35 @@ import EVENT_TYPE from './../data/event-type';
 import CITY_NAME from './../data/city-name';
 import {availableOptions} from './../data/option';
 
-const generateEventTypeChoice = (t) => `
-<div class="event__type-item">
-  <input id="event-type-${t.name}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${t.name}">
-  <label class="event__type-label  event__type-label--${t.name}" for="event-type-${t.name}-1">${t.name}</label>
-</div>          
-`;
+const getEventTypeOutput = (eventType) => `${eventType.name} ${eventType.isMoving ? `to` : `at`}`;
 
 export default class EditEvent extends AbstractComponent {
   constructor(event) {
     super();
     this._event = event;
+    this._eventTypeList = this.getElement().querySelector(`.event__type-list`);
+    this._eventTypeImg = this.getElement().querySelector(`.event__type-icon`);
+    this._eventTypeOutput = this.getElement().querySelector(`.event__type-output`);
+
+    this._eventTypeList.addEventListener(`click`, this._onChangeEventType.bind(this));
+  }
+
+  _onChangeEventType(evt) {
+    if (evt.target.tagName === `INPUT`) {
+      const eventType = this.getElement().querySelector(`#event-type-toggle-1`);
+      eventType.value = evt.target.value;
+      eventType.checked = false;
+      this._eventTypeImg.src = `img/icons/${eventType.value}.png`;
+      this._eventTypeOutput.innerText = getEventTypeOutput(EVENT_TYPE.find((it) => it.name === eventType.value));
+    }
+  }
+
+  generateEventTypeChoice(t) {
+    return `
+  <div class="event__type-item">
+    <input id="event-type-${t.name}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${t.name}" ${this._event.type.name === t.name ? `checked` : ``}>
+    <label class="event__type-label  event__type-label--${t.name}" for="event-type-${t.name}-1">${t.name}</label>
+  </div>`;
   }
 
   getTemplate() {
@@ -23,26 +41,26 @@ export default class EditEvent extends AbstractComponent {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${this._event.type.name}.png" alt="Event type icon">
           </label>
-          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+          <input name="event__type-name" value="${this._event.type.name}" class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox"/>
     
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Transfer</legend>
-              ${EVENT_TYPE.filter((t) => t.isMoving).map(generateEventTypeChoice).join(``)}
+              ${EVENT_TYPE.filter((t) => t.isMoving).map(this.generateEventTypeChoice.bind(this)).join(``)}
             </fieldset>
     
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Activity</legend>
-              ${EVENT_TYPE.filter((t) => !t.isMoving).map(generateEventTypeChoice).join(``)}
+              ${EVENT_TYPE.filter((t) => !t.isMoving).map(this.generateEventTypeChoice.bind(this)).join(``)}
             </fieldset>
           </div>
         </div>
     
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${this._event.type.name} ${this._event.type.isMoving ? `to` : `at`}
+            ${getEventTypeOutput(this._event.type)}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._event.city}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -97,11 +115,11 @@ export default class EditEvent extends AbstractComponent {
               .map((o) => ({opt: o, checked: this._event.options.indexOf(o) >= 0}))
               .map((o) => `
                 <div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${o.opt.name}-1" type="checkbox" name="event-offer-${o.opt.name}" ${o.checked ? `checked` : ``}>
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${o.opt.name}-1" type="checkbox" name="event-offer" value="${o.opt.name}" ${o.checked ? `checked` : ``}>
                 <label class="event__offer-label" for="event-offer-${o.opt.name}-1">
                   <span class="event__offer-title">${o.opt.description}</span>
                   &plus;
-                  &euro;&nbsp;<span class="event__offer-price">30</span>
+                  &euro;&nbsp;<span class="event__offer-price">${o.opt.price}</span>
                 </label>
                 </div>
               `).join(``)}
