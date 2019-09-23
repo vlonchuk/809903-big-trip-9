@@ -4,25 +4,28 @@ export default class TripInfo extends AbstractComponent {
   constructor(route) {
     super();
     this._route = route;
-    if (this._route.length > 0) {
-      this.calc();
-    }
+    this.calc();
   }
 
   calc() {
-    const start = this._route[0];
-    const end = this._route[this._route.length - 1];
+    if (this._route.length > 0) {
+      const start = this._route[0];
+      const end = this._route[this._route.length - 1];
 
-    if (this._route.length > 3) {
-      this._title = `${start.city} - ... - ${end.city}`;
-    } else {
-      this._title = this._route.map((e) => e.city).join(` - `);
-    }
+      if (this._route.length > 3) {
+        this._title = `${start.city} - ... - ${end.city}`;
+      } else {
+        this._title = this._route.map((e) => e.city).join(` - `);
+      }
 
-    if (start.startMonth === end.endMonth) {
-      this._dates = `${start.startMonth} ${start.startDay} - ${end.endDay}`;
+      if (start.startMonth === end.endMonth) {
+        this._dates = `${start.startMonth} ${start.startDay} - ${end.endDay}`;
+      } else {
+        this._dates = `${start.startDay} ${start.startMonth} - ${end.endDay} ${end.endMonth}`;
+      }
     } else {
-      this._dates = `${start.startDay} ${start.startMonth} - ${end.endDay} ${end.endMonth}`;
+      this._title = null;
+      this._dates = null;
     }
   }
 

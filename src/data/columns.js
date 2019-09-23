@@ -7,6 +7,7 @@ const COLUMN_SORT_TYPE = {
 const columns = [
   {
     name: `day`,
+    showedByEvent: true,
   },
   {
     name: `event`,
