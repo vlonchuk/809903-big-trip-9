@@ -7,6 +7,11 @@ export default class TripCost extends AbstractComponent {
     this.calc();
   }
 
+  changeRoute(route) {
+    this._route = route;
+    this.calc();
+  }
+
   calc() {
     this._total = 0;
     this._route.forEach((event) => {
