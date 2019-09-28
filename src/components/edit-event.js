@@ -2,6 +2,9 @@ import AbstractComponent from './../components/abstract-component';
 import EVENT_TYPE from './../data/event-type';
 import CITY_NAME from './../data/city-name';
 import {availableOptions} from './../data/option';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/light.css';
 
 const getEventTypeOutput = (eventType) => `${eventType.name} ${eventType.isMoving ? `to` : `at`}`;
 
@@ -14,9 +17,42 @@ export default class EditEvent extends AbstractComponent {
     this._eventTypeOutput = this.getElement().querySelector(`.event__type-output`);
 
     this._eventTypeList.addEventListener(`click`, this._onChangeEventType.bind(this));
+    this._edtStartDate = this._addFlatPickr(this.getElement().querySelector(`#event-start-time-1`), null, this._event.endTime - 1, this.onChangeStartDate.bind(this));
+    this._edtEndDate = this._addFlatPickr(this.getElement().querySelector(`#event-end-time-1`), this._event.startTime + 1, null, this.onChangeEndDate.bind(this));
+  }
+
+  onChangeStartDate() {
+    this._edtEndDate.set(`minDate`, this._edtStartDate.selectedDates[0]);
+  }
+
+  onChangeEndDate() {
+    this._edtStartDate.set(`maxDate`, this._edtEndDate.selectedDates[0]);
+  }
+
+  _addFlatPickr(element, minDt, maxDt, onChangeDate) {
+    return flatpickr(element, {
+      allowInput: true,
+      enableTime: true,
+      dateFormat: `d/m/y H:i`,
+      minDate: new Date(minDt),
+      maxDate: (maxDt ? new Date(maxDt) : new Date(`2099-01-01`)),
+      onChange(rawdate, altdate, FPOBJ) {
+        FPOBJ.close();
+        FPOBJ._input.blur();
+        if (onChangeDate) {
+          onChangeDate();
+        }
+      }
+    });
+  }
+
+  clear() {
+    this._edtStartDate.close();
+    this._edtEndDate.close();
   }
 
   _onChangeEventType(evt) {
+    this._edtStartDate.close();
     if (evt.target.tagName === `INPUT`) {
       const eventType = this.getElement().querySelector(`#event-type-toggle-1`);
       eventType.value = evt.target.value;

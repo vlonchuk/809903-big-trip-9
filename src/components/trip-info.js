@@ -7,6 +7,11 @@ export default class TripInfo extends AbstractComponent {
     this.calc();
   }
 
+  changeRoute(route) {
+    this._route = route;
+    this.calc();
+  }
+
   calc() {
     if (this._route.length > 0) {
       const start = this._route[0];

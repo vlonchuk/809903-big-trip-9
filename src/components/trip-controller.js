@@ -105,8 +105,8 @@ export default class TripController {
   _onDataChange(newData, oldData) {
     this._route[this._route.findIndex((it) => it === oldData)] = newData;
     this._route = this._route.slice().sort((a, b) => (a.startTime - b.startTime));
-    this._tripCost.calc();
-    this._tripInfo.calc();
+    this._tripCost.changeRoute(this._route);
+    this._tripInfo.changeRoute(this._route);
     this.renderBoard();
   }
 

@@ -22,6 +22,7 @@ export default class EventController {
 
   _onEscKeyDown(evt) {
     if (evt.keyCode === utils.Keys.ESCAPE) {
+      this._editEventComponent.clear();
       this._container.getElement().replaceChild(this._eventComponent.getElement(), this._editEventComponent.getElement());
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
